@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-15 — 0.3.0 Public release
+
+### Added
+- Public GitHub repo with download link, screenshots and install guide.
+
 ## 2026-10-15 — 0.3.0 Green brand, light mode
 
 ### Added
