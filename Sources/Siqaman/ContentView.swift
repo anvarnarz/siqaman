@@ -25,10 +25,10 @@ struct ContentView: View {
     }
 }
 
-/// Large line icon in a copper-lit tile, used at the top of each state.
+/// Large line icon in a softly lit tile, used at the top of each state.
 private struct Badge: View {
     let symbol: String
-    var color: Color = Theme.accent
+    var color: Color = Theme.accentInk
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: 26, weight: .regular))
@@ -56,19 +56,24 @@ private struct HomeView: View {
     @Environment(Model.self) private var model
     let showAbout: () -> Void
     @State private var targeted = false
+    @AppStorage(Theme.darkModeKey) private var dark = false
 
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
+            HStack(spacing: 14) {
                 Text("Siqaman").overline()
                 Spacer()
+                Button { dark.toggle(); Theme.applyAppearance(dark: dark) } label: {
+                    Image(systemName: dark ? "sun.max" : "moon").font(.system(size: 14)).foregroundStyle(Theme.text3)
+                }
+                .buttonStyle(.plain).help(dark ? "Light mode" : "Dark mode")
                 Button(action: showAbout) { Image(systemName: "info.circle").font(.system(size: 14)).foregroundStyle(Theme.text3) }
                     .buttonStyle(.plain).help("About Siqaman")
             }
             VStack(spacing: 14) {
                 Image(systemName: targeted ? "arrow.down.circle" : "archivebox")
                     .font(.system(size: 40, weight: .light))
-                    .foregroundStyle(Theme.accent)
+                    .foregroundStyle(Theme.accentInk)
                     .contentTransition(.symbolEffect(.replace))
                 Text("Drop files here").font(Theme.font(22, .semibold)).tracking(-0.2)
                 Text("Files are compressed · ZIP, RAR and 7z are extracted")
@@ -77,7 +82,7 @@ private struct HomeView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(targeted ? Theme.accentSoft : Theme.surface))
             .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .strokeBorder(targeted ? Theme.accent : Color.white.opacity(0.14), style: StrokeStyle(lineWidth: 1.5, dash: [6, 6])))
+                .strokeBorder(targeted ? Theme.accent : Theme.dash, style: StrokeStyle(lineWidth: 1.5, dash: [6, 6])))
             .animation(.easeOut(duration: 0.18), value: targeted)
             .onDrop(of: [.fileURL], isTargeted: $targeted) { providers in
                 Task {
@@ -186,7 +191,7 @@ private struct WorkingView: View {
                     Capsule().fill(Theme.surfaceRaised)
                         .overlay(alignment: .leading) {
                             Capsule().fill(Theme.wave).frame(width: max(6, geo.size.width * model.progress))
-                                .shadow(color: Theme.accent.opacity(0.6), radius: 6)
+                                .shadow(color: Theme.accent.opacity(0.5), radius: 6)
                                 .animation(.easeOut(duration: 0.18), value: model.progress)
                         }
                 }
@@ -277,7 +282,7 @@ struct AboutView: View {
             Text("ZIP, RAR and 7z for your Mac")
                 .font(Theme.font(13)).foregroundStyle(Theme.text2).padding(.top, 10)
 
-            Rectangle().fill(Color.white.opacity(0.08)).frame(height: 1).padding(.vertical, 22)
+            Rectangle().fill(Theme.divider).frame(height: 1).padding(.vertical, 22)
 
             Text("Created by").overline()
             Text("Anvar Narzullaev").font(Theme.font(17, .semibold)).padding(.top, 6)
@@ -285,14 +290,16 @@ struct AboutView: View {
             Link(destination: Self.telegram) {
                 VStack(spacing: 10) {
                     if let logo = Self.logoURL.flatMap(NSImage.init(contentsOf:)) {
-                        Image(nsImage: logo).resizable().aspectRatio(contentMode: .fit).frame(height: 22)
+                        // the wordmark ships white; render it as a template so it follows the text color
+                        Image(nsImage: logo).renderingMode(.template).resizable().aspectRatio(contentMode: .fit).frame(height: 22)
+                            .foregroundStyle(Theme.text)
                     }
                     HStack(spacing: 6) {
                         Image(systemName: "paperplane")
                         Text("t.me/ertagakech")
                     }
                     .font(Theme.mono(12))
-                    .foregroundStyle(hover ? Theme.accentHover : Theme.accent)
+                    .foregroundStyle(hover ? Theme.text : Theme.text2)
                 }
                 .padding(.horizontal, 22).padding(.vertical, 16)
                 .card()

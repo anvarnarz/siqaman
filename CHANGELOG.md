@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-15 — 0.3.0 Green brand, light mode
+
+### Added
+- Dark mode toggle (moon/sun button on the home screen), remembered across launches.
+
+### Changed
+- Switched to the canonical Ertaga kech design system: brand green #3AD754 with black text on accent (0.2.0 used a copper variant by mistake).
+- Light mode is now the default.
+- App icon: green zipper on a matte-black tile.
+
 ## 2026-10-15 — 0.2.0 Ertaga kech design
 
 ### Added

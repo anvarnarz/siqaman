@@ -1,4 +1,4 @@
-// Draws the app icon (Ertaga kech): a copper zipper on a matte-black squircle, Apple 1024px grid. Usage: icon <out.png>
+// Draws the app icon (Ertaga kech): a green zipper on a matte-black squircle, Apple 1024px grid. Usage: icon <out.png>
 import AppKit
 
 let size = 1024.0, body = 824.0, inset = (size - body) / 2
@@ -21,11 +21,11 @@ ctx.saveGState()
 ctx.addPath(round(tile, 185)); ctx.clip()
 let bg = CGGradient(colorsSpace: nil, colors: [rgb(0x1C1C1C), rgb(0x050505)] as CFArray, locations: [0, 1])!
 ctx.drawLinearGradient(bg, start: CGPoint(x: size / 2, y: inset), end: CGPoint(x: size / 2, y: inset + body), options: [])
-// copper light from the top-right and bottom-left, like the brand's light traces
-let glow = CGGradient(colorsSpace: nil, colors: [rgb(0xB66B3B, 0.55), rgb(0xB66B3B, 0)] as CFArray, locations: [0, 1])!
+// green light from the top-right and bottom-left, like the brand's light traces
+let glow = CGGradient(colorsSpace: nil, colors: [rgb(0x3AD754, 0.45), rgb(0x3AD754, 0)] as CFArray, locations: [0, 1])!
 ctx.drawRadialGradient(glow, startCenter: CGPoint(x: inset + body * 0.9, y: inset), startRadius: 0,
                        endCenter: CGPoint(x: inset + body * 0.9, y: inset), endRadius: body * 0.75, options: [])
-let glow2 = CGGradient(colorsSpace: nil, colors: [rgb(0xB66B3B, 0.25), rgb(0xB66B3B, 0)] as CFArray, locations: [0, 1])!
+let glow2 = CGGradient(colorsSpace: nil, colors: [rgb(0x3AD754, 0.2), rgb(0x3AD754, 0)] as CFArray, locations: [0, 1])!
 ctx.drawRadialGradient(glow2, startCenter: CGPoint(x: inset, y: inset + body), startRadius: 0,
                        endCenter: CGPoint(x: inset, y: inset + body), endRadius: body * 0.6, options: [])
 ctx.restoreGState()
@@ -35,7 +35,7 @@ ctx.addPath(round(tile.insetBy(dx: 3, dy: 3), 182)); ctx.setLineWidth(6)
 ctx.setStrokeColor(rgb(0xFFFFFF, 0.08)); ctx.strokePath()
 ctx.restoreGState()
 
-// Glyph: interlocking teeth, slider, pull tab — one shape, filled with the copper→peach wave
+// Glyph: interlocking teeth, slider, pull tab — one shape, filled with a light-to-brand green gradient
 let cx = size / 2
 let glyph = CGMutablePath()
 let tooth = CGSize(width: 96, height: 34), gap = 13.0, teeth = 7
@@ -57,7 +57,7 @@ tabPath.addPath(round(CGRect(x: cx - 17, y: tab.maxY - 90, width: 34, height: 56
 glyph.addPath(tabPath)
 ctx.saveGState()
 ctx.addPath(glyph); ctx.clip(using: .evenOdd)
-let wave = CGGradient(colorsSpace: nil, colors: [rgb(0xE8A87C), rgb(0xB66B3B)] as CFArray, locations: [0, 1])!
+let wave = CGGradient(colorsSpace: nil, colors: [rgb(0x9CF2AB), rgb(0x3AD754)] as CFArray, locations: [0, 1])!
 let box = glyph.boundingBox
 ctx.drawLinearGradient(wave, start: CGPoint(x: box.midX, y: box.minY), end: CGPoint(x: box.midX, y: box.maxY), options: [])
 ctx.restoreGState()

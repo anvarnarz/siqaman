@@ -21,7 +21,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         Theme.registerFonts()
-        NSApp.appearance = NSAppearance(named: .darkAqua) // the brand is dark-first
+        Theme.applyAppearance()
         NSApp.servicesProvider = self
         NSUpdateDynamicServices()
         showWindow()
@@ -34,7 +34,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             w.titleVisibility = .hidden
             w.isMovableByWindowBackground = true
             w.isReleasedWhenClosed = false
-            w.backgroundColor = .black
+            w.backgroundColor = Theme.windowBackground
             w.contentView = NSHostingView(rootView: AboutView())
             w.center()
             aboutWindow = w
@@ -53,7 +53,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             w.isMovableByWindowBackground = true
             w.isReleasedWhenClosed = false
             w.title = "Siqaman"
-            w.backgroundColor = .black
+            w.backgroundColor = Theme.windowBackground
             w.contentView = NSHostingView(rootView: ContentView(showAbout: { [weak self] in self?.showAbout() })
                 .environment(model).frame(width: 440, height: 400))
             w.center()

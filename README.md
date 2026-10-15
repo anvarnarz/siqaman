@@ -1,6 +1,6 @@
 # Siqaman
 
-A native macOS archiver in the **Ertaga kech** design system (matte black, copper accent, Bricolage Grotesque). Compress to **ZIP** or **7z** (optionally AES-256 password-protected), extract **ZIP, RAR, 7z, tar, gz, bz2, xz** and more — from a window, by drag & drop, double-click, or Finder's right-click menu.
+A native macOS archiver in the **Ertaga kech** design system (brand green `#3AD754`, Bricolage Grotesque). Light mode by default; the moon button on the home screen switches to dark, and the choice is remembered. Compress to **ZIP** or **7z** (optionally AES-256 password-protected), extract **ZIP, RAR, 7z, tar, gz, bz2, xz** and more — from a window, by drag & drop, double-click, or Finder's right-click menu.
 
 ## Install
 
@@ -45,7 +45,7 @@ Sources/Siqaman/
   SiqamanApp.swift   app entry, window, Finder services
   Model.swift        UI state machine (compose → working → password → done)
   ContentView.swift  SwiftUI screens + About window
-  Theme.swift        Ertaga kech tokens: colors, fonts, buttons, fields
+  Theme.swift        Ertaga kech tokens (light + dark): colors, fonts, buttons, fields
   Archiver.swift     7zz wrapper: compress, extract, progress, password detection
 Resources/
   Info.plist         services, document types, RAR/7z UTIs
