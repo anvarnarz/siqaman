@@ -7,18 +7,39 @@ struct SiqamanApp: App {
 
     // The window is AppKit-owned (see AppDelegate.showWindow): a SwiftUI Window scene
     // is not opened when Finder launches the app just to run a service.
-    var body: some Scene { Settings { EmptyView() } }
+    var body: some Scene {
+        Settings { EmptyView() }
+            .commands { CommandGroup(replacing: .appInfo) { Button("About Siqaman") { delegate.showAbout() } } }
+    }
 }
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let model = Model()
     private var window: NSWindow?
+    private var aboutWindow: NSWindow?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        Theme.registerFonts()
+        NSApp.appearance = NSAppearance(named: .darkAqua) // the brand is dark-first
         NSApp.servicesProvider = self
         NSUpdateDynamicServices()
         showWindow()
+    }
+
+    func showAbout() {
+        if aboutWindow == nil {
+            let w = NSWindow(contentRect: .zero, styleMask: [.titled, .closable, .fullSizeContentView], backing: .buffered, defer: false)
+            w.titlebarAppearsTransparent = true
+            w.titleVisibility = .hidden
+            w.isMovableByWindowBackground = true
+            w.isReleasedWhenClosed = false
+            w.backgroundColor = .black
+            w.contentView = NSHostingView(rootView: AboutView())
+            w.center()
+            aboutWindow = w
+        }
+        aboutWindow?.makeKeyAndOrderFront(nil)
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool { showWindow(); return true }
@@ -32,15 +53,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             w.isMovableByWindowBackground = true
             w.isReleasedWhenClosed = false
             w.title = "Siqaman"
-            let blur = NSVisualEffectView()
-            blur.material = .underWindowBackground
-            blur.blendingMode = .behindWindow
-            blur.state = .followsWindowActiveState
-            let host = NSHostingView(rootView: ContentView().environment(model).frame(width: 440, height: 400))
-            host.frame = blur.bounds
-            host.autoresizingMask = [.width, .height]
-            blur.addSubview(host)
-            w.contentView = blur
+            w.backgroundColor = .black
+            w.contentView = NSHostingView(rootView: ContentView(showAbout: { [weak self] in self?.showAbout() })
+                .environment(model).frame(width: 440, height: 400))
             w.center()
             window = w
         }

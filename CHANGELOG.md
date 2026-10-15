@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-15 — 0.2.0 Ertaga kech design
+
+### Added
+- About window: created by Anvar Narzullaev, with the Ertaga kech wordmark linking to t.me/ertagakech.
+
+### Changed
+- UI restyled to the Ertaga kech design system: dark-first, copper accent, Bricolage Grotesque and Geist Mono, copper glow backdrop.
+- App icon recolored to a copper zipper on a matte-black tile.
+
 ## 2026-10-15 — 0.1.2 New icon
 
 ### Changed

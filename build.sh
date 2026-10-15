@@ -12,6 +12,7 @@ swiftc -O -target arm64-apple-macos15 -swift-version 5 -enable-bare-slash-regex 
   Sources/Siqaman/*.swift -o "$APP/Contents/MacOS/Siqaman"
 cp "$SEVENZ" "$APP/Contents/MacOS/7zz"
 sed "s/__VERSION__/$VERSION/g" Resources/Info.plist > "$APP/Contents/Info.plist"
+cp -R Resources/Fonts Resources/ertagakech-logo.svg "$APP/Contents/Resources/"
 
 # Icon: drawn in code, then fanned out to an .icns
 swiftc -O scripts/icon.swift -o build/icontool

@@ -1,4 +1,4 @@
-// Draws the app icon: a white zipper on a violet squircle, Apple 1024px grid. Usage: icon <out.png>
+// Draws the app icon (Ertaga kech): a copper zipper on a matte-black squircle, Apple 1024px grid. Usage: icon <out.png>
 import AppKit
 
 let size = 1024.0, body = 824.0, inset = (size - body) / 2
@@ -15,34 +15,52 @@ func round(_ r: CGRect, _ radius: CGFloat) -> CGPath { CGPath(roundedRect: r, co
 let tile = CGRect(x: inset, y: inset, width: body, height: body)
 ctx.saveGState()
 ctx.setShadow(offset: CGSize(width: 0, height: -10), blur: 28, color: rgb(0x000000, 0.28))
-ctx.addPath(round(tile, 185)); ctx.setFillColor(rgb(0x5B3DF5)); ctx.fillPath()
+ctx.addPath(round(tile, 185)); ctx.setFillColor(rgb(0x000000)); ctx.fillPath()
 ctx.restoreGState()
 ctx.saveGState()
 ctx.addPath(round(tile, 185)); ctx.clip()
-let bg = CGGradient(colorsSpace: nil, colors: [rgb(0x8A6CFF), rgb(0x4A2BE0)] as CFArray, locations: [0, 1])!
+let bg = CGGradient(colorsSpace: nil, colors: [rgb(0x1C1C1C), rgb(0x050505)] as CFArray, locations: [0, 1])!
 ctx.drawLinearGradient(bg, start: CGPoint(x: size / 2, y: inset), end: CGPoint(x: size / 2, y: inset + body), options: [])
+// copper light from the top-right and bottom-left, like the brand's light traces
+let glow = CGGradient(colorsSpace: nil, colors: [rgb(0xB66B3B, 0.55), rgb(0xB66B3B, 0)] as CFArray, locations: [0, 1])!
+ctx.drawRadialGradient(glow, startCenter: CGPoint(x: inset + body * 0.9, y: inset), startRadius: 0,
+                       endCenter: CGPoint(x: inset + body * 0.9, y: inset), endRadius: body * 0.75, options: [])
+let glow2 = CGGradient(colorsSpace: nil, colors: [rgb(0xB66B3B, 0.25), rgb(0xB66B3B, 0)] as CFArray, locations: [0, 1])!
+ctx.drawRadialGradient(glow2, startCenter: CGPoint(x: inset, y: inset + body), startRadius: 0,
+                       endCenter: CGPoint(x: inset, y: inset + body), endRadius: body * 0.6, options: [])
+ctx.restoreGState()
+// 1px-style top highlight
+ctx.saveGState()
+ctx.addPath(round(tile.insetBy(dx: 3, dy: 3), 182)); ctx.setLineWidth(6)
+ctx.setStrokeColor(rgb(0xFFFFFF, 0.08)); ctx.strokePath()
 ctx.restoreGState()
 
-// Glyph: interlocking teeth, slider, pull tab — all white
-let white = rgb(0xFFFFFF), cx = size / 2
-ctx.setFillColor(white)
+// Glyph: interlocking teeth, slider, pull tab — one shape, filled with the copper→peach wave
+let cx = size / 2
+let glyph = CGMutablePath()
 let tooth = CGSize(width: 96, height: 34), gap = 13.0, teeth = 7
 let sliderH = 104.0, tabH = 176.0
 let glyphH = Double(teeth) * tooth.height + Double(teeth - 1) * gap + 22 + sliderH + 12 + tabH
 var y = (size - glyphH) / 2
 for i in 0..<teeth { // alternate sides, overlapping the centre line so they read as interlocked
     let x = i % 2 == 0 ? cx - tooth.width + 14 : cx - 14
-    ctx.addPath(round(CGRect(x: x, y: y, width: tooth.width, height: tooth.height), tooth.height / 2)); ctx.fillPath()
+    glyph.addPath(round(CGRect(x: x, y: y, width: tooth.width, height: tooth.height), tooth.height / 2))
     y += tooth.height + gap
 }
 y += 22 - gap
 let slider = CGRect(x: cx - 66, y: y, width: 132, height: sliderH)
-ctx.addPath(round(slider, 34)); ctx.fillPath()
+glyph.addPath(round(slider, 34))
 let tab = CGRect(x: cx - 44, y: slider.maxY + 12, width: 88, height: tabH)
 let tabPath = CGMutablePath()
 tabPath.addPath(round(tab, 44))
 tabPath.addPath(round(CGRect(x: cx - 17, y: tab.maxY - 90, width: 34, height: 56), 17))
-ctx.addPath(tabPath); ctx.fillPath(using: .evenOdd)
+glyph.addPath(tabPath)
+ctx.saveGState()
+ctx.addPath(glyph); ctx.clip(using: .evenOdd)
+let wave = CGGradient(colorsSpace: nil, colors: [rgb(0xE8A87C), rgb(0xB66B3B)] as CFArray, locations: [0, 1])!
+let box = glyph.boundingBox
+ctx.drawLinearGradient(wave, start: CGPoint(x: box.midX, y: box.minY), end: CGPoint(x: box.midX, y: box.maxY), options: [])
+ctx.restoreGState()
 
 let rep = NSBitmapImageRep(cgImage: ctx.makeImage()!)
 try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: CommandLine.arguments[1]))

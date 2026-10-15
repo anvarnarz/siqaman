@@ -1,6 +1,6 @@
 # Siqaman
 
-A native, Apple-style macOS archiver. Compress to **ZIP** or **7z** (optionally AES-256 password-protected), extract **ZIP, RAR, 7z, tar, gz, bz2, xz** and more — from a window, by drag & drop, double-click, or Finder's right-click menu.
+A native macOS archiver in the **Ertaga kech** design system (matte black, copper accent, Bricolage Grotesque). Compress to **ZIP** or **7z** (optionally AES-256 password-protected), extract **ZIP, RAR, 7z, tar, gz, bz2, xz** and more — from a window, by drag & drop, double-click, or Finder's right-click menu.
 
 ## Install
 
@@ -25,6 +25,8 @@ This builds `build/Siqaman.app` (bundling its own copy of `7zz`), installs it to
 
 Extraction lands next to the archive. A single top-level item is lifted out (no `Foo/Foo/` nesting), `.tar.gz` style archives are fully unpacked, and existing files are never overwritten (`Name 2`, `Name 3`…). Encrypted archives prompt for a password. Passwords are passed to 7-Zip over stdin, never on the command line.
 
+Siqaman menu → **About Siqaman** (or the ⓘ on the home screen) shows credits and a link to [t.me/ertagakech](https://t.me/ertagakech).
+
 ## Formats
 
 | | Create | Extract | Password |
@@ -42,10 +44,13 @@ RAR creation is not possible: the format is proprietary.
 Sources/Siqaman/
   SiqamanApp.swift   app entry, window, Finder services
   Model.swift        UI state machine (compose → working → password → done)
-  ContentView.swift  SwiftUI screens
+  ContentView.swift  SwiftUI screens + About window
+  Theme.swift        Ertaga kech tokens: colors, fonts, buttons, fields
   Archiver.swift     7zz wrapper: compress, extract, progress, password detection
 Resources/
   Info.plist         services, document types, RAR/7z UTIs
+  Fonts/             Bricolage Grotesque + Geist Mono (from the Ertaga kech design system)
+  ertagakech-logo.svg  wordmark shown in the About window
 scripts/
   icon.swift         draws the app icon (vector, 1024px)
   selftest.swift     engine self-test
