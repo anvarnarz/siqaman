@@ -88,6 +88,10 @@ scripts/             icon.swift (draws the app icon), selftest.swift
 build.sh             build, bundle, sign, install
 ```
 
+## License
+
+Siqaman's code is [MIT](LICENSE) © Anvar Narzullaev. Bundled third-party parts keep their own licenses (below). The Ertaga kech name and logo are not covered by the MIT license.
+
 ## Credits
 
 Archiving by [7-Zip](https://www.7-zip.org) (`7zz`, LGPL-2.1 with the unRAR restriction), bundled in the app. Fonts: Bricolage Grotesque and Geist Mono, both under the SIL Open Font License 1.1.
