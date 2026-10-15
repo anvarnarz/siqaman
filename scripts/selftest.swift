@@ -49,7 +49,11 @@ import Foundation
         try Data("PK\u{03}\u{04}garbage-not-a-zip".utf8).write(to: odd.appendingPathComponent("bad.zip"))
         do { _ = try await Archiver.extract(odd.appendingPathComponent("bad.zip"), password: nil, task: ProcessBox()) { _ in }; check(false, "corrupt zip opened") }
         catch Archiver.Failure.wrongPassword { check(false, "corrupt zip misread as wrong password") } catch {}
-        print("✓ literal wildcard names, corrupt ≠ wrong password")
+        let q = root.appendingPathComponent("Docs.tar.gz")
+        _ = setxattr(q.path, "com.apple.quarantine", "0083;00000000;Safari;", 21, 0, 0)
+        let qOut = try await Archiver.extract(q, password: nil, task: ProcessBox()) { _ in }
+        check(getxattr(qOut.appendingPathComponent("sub/b.txt").path, "com.apple.quarantine", nil, 0, 0, XATTR_NOFOLLOW) > 0, "quarantine not propagated")
+        print("✓ literal wildcard names, corrupt ≠ wrong password, quarantine kept")
         print("ALL OK")
     }
 }

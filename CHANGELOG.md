@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-15 — 0.1.1 Security fixes
+
+### Fixed
+- Extracted files now keep the archive's quarantine flag, so Gatekeeper still checks downloaded apps.
+- File names with `*` or `?` are archived literally instead of matching other files.
+- A corrupt archive is no longer reported as "wrong password".
+- Cancel pressed the instant a job starts is no longer lost.
+
 ## 2026-10-15 — 0.1.0 Initial release
 
 ### Added

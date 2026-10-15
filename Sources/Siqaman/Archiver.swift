@@ -84,10 +84,22 @@ enum Archiver {
             try fm.removeItem(at: tar)
             contents = (try? fm.contentsOfDirectory(at: staging, includingPropertiesForKeys: nil)) ?? []
         }
+        propagateQuarantine(from: archive, into: staging)
         let (from, name) = contents.count == 1 ? (contents[0], contents[0].lastPathComponent) : (staging, stem)
         let dest = unique(parent.appendingPathComponent(name))
         try fm.moveItem(at: from, to: dest)
         return dest
+    }
+
+    /// Like Archive Utility: files from a downloaded archive stay quarantined, so Gatekeeper still checks them.
+    private static func propagateQuarantine(from archive: URL, into dir: URL) {
+        let key = "com.apple.quarantine"
+        var buf = [UInt8](repeating: 0, count: 1024)
+        let n = getxattr(archive.path, key, &buf, buf.count, 0, 0)
+        guard n > 0 else { return }
+        var paths = [dir.path]
+        if let e = FileManager.default.enumerator(atPath: dir.path) { paths += e.compactMap { "\(dir.path)/\($0 as! String)" } }
+        for path in paths { setxattr(path, key, buf, n, 0, XATTR_NOFOLLOW) }
     }
 
     // MARK: - Process
