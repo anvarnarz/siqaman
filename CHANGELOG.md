@@ -11,7 +11,7 @@
 - Dark mode toggle (moon/sun button on the home screen), remembered across launches.
 
 ### Changed
-- Switched to the canonical Ertaga kech design system: brand green #3AD754 with black text on accent (0.2.0 used a copper variant by mistake).
+- Ertaga kech brand green #3AD754 with black text on accent.
 - Light mode is now the default.
 - App icon: green zipper on a matte-black tile.
 
@@ -21,8 +21,7 @@
 - About window: created by Anvar Narzullaev, with the Ertaga kech wordmark linking to t.me/ertagakech.
 
 ### Changed
-- UI restyled to the Ertaga kech design system: dark-first, copper accent, Bricolage Grotesque and Geist Mono, copper glow backdrop.
-- App icon recolored to a copper zipper on a matte-black tile.
+- UI restyled to the Ertaga kech design system: Bricolage Grotesque and Geist Mono, glow backdrop.
 
 ## 2026-10-15 — 0.1.2 New icon
 
