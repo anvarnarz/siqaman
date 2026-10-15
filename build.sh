@@ -13,9 +13,9 @@ swiftc -O -target arm64-apple-macos15 -swift-version 5 -enable-bare-slash-regex 
 cp "$SEVENZ" "$APP/Contents/MacOS/7zz"
 sed "s/__VERSION__/$VERSION/g" Resources/Info.plist > "$APP/Contents/Info.plist"
 
-# Icon: mask the artwork, then fan out to an .icns
+# Icon: drawn in code, then fanned out to an .icns
 swiftc -O scripts/icon.swift -o build/icontool
-build/icontool Resources/icon-source.png build/icon-1024.png
+build/icontool build/icon-1024.png
 ICONSET=build/AppIcon.iconset && rm -rf $ICONSET && mkdir $ICONSET
 for s in 16 32 128 256 512; do
   sips -z $s $s build/icon-1024.png --out $ICONSET/icon_${s}x${s}.png >/dev/null

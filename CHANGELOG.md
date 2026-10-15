@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-10-15 — 0.1.2 New icon
+
+### Changed
+- Minimal app icon: white zipper on a violet squircle, drawn in code.
+
 ## 2026-10-15 — 0.1.1 Security fixes
 
 ### Fixed

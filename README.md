@@ -46,9 +46,8 @@ Sources/Siqaman/
   Archiver.swift     7zz wrapper: compress, extract, progress, password detection
 Resources/
   Info.plist         services, document types, RAR/7z UTIs
-  icon-source.png    icon artwork (masked by scripts/icon.swift at build)
 scripts/
-  icon.swift         artwork → transparent 1024px icon
+  icon.swift         draws the app icon (vector, 1024px)
   selftest.swift     engine self-test
 build.sh             build, bundle, sign (ad-hoc), install
 ```
