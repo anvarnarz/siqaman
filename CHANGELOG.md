@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-11-04 — 0.4.0 Password generator
+
+### Added
+- A Generate button under the password fields. It fills both fields with a random 20-character password (no look-alike characters such as 0/O or 1/l), copies it to the clipboard and shows it until you edit the fields.
+
+## 2026-10-16 — 0.3.1 RAR fix
+
+### Fixed
+- RAR archives failed with "Unsupported Method" on every file. Homebrew's 7zz ships without the RAR codec, so the build now bundles the official 7-Zip 26.04 macOS binary (pinned by SHA-256), which includes it.
+- Turning on "Protect with password" pushed the Cancel and Compress buttons below the bottom of the window. The window now grows to fit its content and is never shorter than 400pt.
+
+### Changed
+- Building from source no longer needs `brew install sevenzip`. `build.sh` downloads 7-Zip and verifies its checksum.
+
 ## 2026-10-15 — 0.3.0 Public release
 
 ### Added

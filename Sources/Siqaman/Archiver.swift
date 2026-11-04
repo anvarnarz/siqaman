@@ -4,6 +4,12 @@ import Foundation
 enum Archiver {
     static let archiveExtensions: Set<String> = ["zip", "zipx", "rar", "7z", "tar", "gz", "tgz", "bz2", "tbz", "tbz2", "xz", "txz", "zst", "lz", "lzma", "cab", "iso", "arj", "z", "001"]
 
+    /// 20 chars from a 57-symbol set (no look-alikes like 0/O, 1/l/I) ≈ 116 bits. randomElement() uses the system CSPRNG.
+    static func randomPassword(length: Int = 20) -> String {
+        let chars = Array("abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789-_!@#")
+        return String((0..<length).map { _ in chars.randomElement()! })
+    }
+
     enum Format: String, CaseIterable, Identifiable { case zip, sevenZip = "7z"; var id: String { rawValue } }
     enum Level: Int, CaseIterable, Identifiable {
         case fast = 1, balanced = 5, smallest = 9

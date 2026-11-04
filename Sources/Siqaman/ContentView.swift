@@ -112,6 +112,7 @@ private struct ComposeView: View {
     @State private var protect = false
     @State private var password = ""
     @State private var confirm = ""
+    @State private var generated: String?
 
     private var mismatch: Bool { protect && !confirm.isEmpty && password != confirm }
     private var canGo: Bool { !protect || (!password.isEmpty && password == confirm) }
@@ -146,6 +147,16 @@ private struct ComposeView: View {
                 if protect {
                     BrandSecureField(placeholder: "Password", text: $password, autofocus: true)
                     BrandSecureField(placeholder: "Confirm password", text: $confirm, error: mismatch)
+                    HStack(spacing: 8) {
+                        // shown only while the fields still hold the generated password
+                        if let generated, generated == password, generated == confirm {
+                            Text(generated).font(Theme.mono(12)).textSelection(.enabled).lineLimit(1)
+                            Text("Copied").font(Theme.font(12)).foregroundStyle(Theme.accentInk)
+                        }
+                        Spacer()
+                        Button { generate() } label: { Label("Generate", systemImage: "dice").font(Theme.font(13, .medium)) }
+                            .buttonStyle(.plain).foregroundStyle(Theme.text2).help("Generate a strong password and copy it")
+                    }
                     if model.format == .sevenZip {
                         HStack {
                             Text("Encrypt file names").font(Theme.font(13)).foregroundStyle(Theme.text2)
@@ -172,6 +183,13 @@ private struct ComposeView: View {
                     .buttonStyle(PrimaryButton()).keyboardShortcut(.defaultAction).disabled(!canGo)
             }
         }
+    }
+
+    private func generate() {
+        let pw = Archiver.randomPassword()
+        password = pw; confirm = pw; generated = pw
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(pw, forType: .string)
     }
 }
 

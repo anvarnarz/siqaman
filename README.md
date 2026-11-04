@@ -29,7 +29,7 @@
 ## Features
 
 - **Extract** ZIP, RAR, RAR5, 7z, tar, gz, bz2, xz, zst, cab, iso and more.
-- **Compress** to ZIP or 7z with AES-256 password protection. 7z can also hide file names.
+- **Compress** to ZIP or 7z with AES-256 password protection. 7z can also hide file names. One click generates a strong password and copies it to the clipboard.
 - **Right-click in Finder** → Services → *Compress with Siqaman…* / *Extract with Siqaman*.
 - **Smart extraction:** results land next to the archive, a single top-level folder isn't double-nested, `.tar.gz` unpacks in one go, and existing files are never overwritten.
 - **Safe by default:** passwords never appear in the process list, and files from downloaded archives stay quarantined so Gatekeeper still checks them.
@@ -45,17 +45,13 @@ To make Siqaman the default for an archive type: Finder → Get Info on an archi
 
 ## Build from source
 
-Needs Command Line Tools (`xcode-select --install`) and Homebrew's 7-Zip:
-
-```bash
-brew install sevenzip
-```
+Needs only Command Line Tools (`xcode-select --install`). The build downloads the official 7-Zip macOS binary (Homebrew's lacks the RAR codec) and checks its SHA-256.
 
 ```bash
 ./build.sh
 ```
 
-This compiles the app, bundles `7zz`, signs it ad-hoc, and installs it to `/Applications`. Use `./build.sh --no-install` to only build into `build/`.
+This compiles the app, bundles the official `7zz`, signs it ad-hoc, and installs it to `/Applications`. Use `./build.sh --no-install` to only build into `build/`.
 
 Run the engine self-test:
 

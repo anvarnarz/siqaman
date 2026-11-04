@@ -1,11 +1,20 @@
 #!/bin/zsh
-# Builds Siqaman.app and installs it to /Applications (or $DEST). Needs only Command Line Tools + `brew install sevenzip`.
+# Builds Siqaman.app and installs it to /Applications (or $DEST). Needs only Command Line Tools.
 set -euo pipefail
 cd "${0:A:h}"
 DEST="${DEST:-/Applications}"
 VERSION="$(cat VERSION)"
-SEVENZ="$(readlink -f "$(command -v 7zz)")" || { echo "7zz missing: brew install sevenzip"; exit 1; }
 APP=build/Siqaman.app
+
+# Official 7-Zip build: Homebrew's 7zz ships without the RAR codec ("Unsupported Method" on every RAR file).
+SEVENZ_VER=2604 SEVENZ_SHA=bee04358cbcbc7106273cee0e8d72916db2696c48067a3538c34d8cd6fd16578
+SEVENZ=build/7zz-$SEVENZ_VER
+if [[ ! -x $SEVENZ ]]; then
+  mkdir -p build && curl -fsSL "https://www.7-zip.org/a/7z$SEVENZ_VER-mac.tar.xz" -o build/7z.tar.xz
+  echo "$SEVENZ_SHA  build/7z.tar.xz" | shasum -a 256 -c - >/dev/null || { echo "7-Zip download checksum mismatch"; exit 1; }
+  tar -xOf build/7z.tar.xz 7zz > $SEVENZ && chmod +x $SEVENZ && rm build/7z.tar.xz
+fi
+$SEVENZ i | grep -qE '^ +D +[0-9]+ +Rar5$' || { echo "bundled 7zz lacks the RAR codec"; exit 1; }
 
 rm -rf "$APP" && mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 swiftc -O -target arm64-apple-macos15 -swift-version 5 -enable-bare-slash-regex -parse-as-library \

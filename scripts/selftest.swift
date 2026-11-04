@@ -53,6 +53,8 @@ import Foundation
         _ = setxattr(q.path, "com.apple.quarantine", "0083;00000000;Safari;", 21, 0, 0)
         let qOut = try await Archiver.extract(q, password: nil, task: ProcessBox()) { _ in }
         check(getxattr(qOut.appendingPathComponent("sub/b.txt").path, "com.apple.quarantine", nil, 0, 0, XATTR_NOFOLLOW) > 0, "quarantine not propagated")
+        let pw = Archiver.randomPassword()
+        check(pw.count == 20 && pw != Archiver.randomPassword() && pw.allSatisfy { !"0O1lI".contains($0) }, "random password: \(pw)")
         print("✓ literal wildcard names, corrupt ≠ wrong password, quarantine kept")
         print("ALL OK")
     }

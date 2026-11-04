@@ -55,7 +55,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             w.title = "Siqaman"
             w.backgroundColor = Theme.windowBackground
             w.contentView = NSHostingView(rootView: ContentView(showAbout: { [weak self] in self?.showAbout() })
-                .environment(model).frame(width: 440, height: 400))
+                .environment(model).frame(width: 440).frame(minHeight: 400).fixedSize(horizontal: false, vertical: true))
+            // ponytail: window height follows content (password fields + 7z options outgrow 400pt)
             w.center()
             window = w
         }
