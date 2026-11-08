@@ -1,11 +1,11 @@
 # Changelog
 
-## 2026-11-04 — 0.4.0 Password generator
+## 2026-11-04 — Password generator (0.4.0)
 
 ### Added
 - A Generate button under the password fields. It fills both fields with a random 20-character password (no look-alike characters such as 0/O or 1/l), copies it to the clipboard and shows it until you edit the fields.
 
-## 2026-10-16 — 0.3.1 RAR fix
+## 2026-10-16 — RAR fix (0.3.1)
 
 ### Fixed
 - RAR archives failed with "Unsupported Method" on every file. Homebrew's 7zz ships without the RAR codec, so the build now bundles the official 7-Zip 26.04 macOS binary (pinned by SHA-256), which includes it.
@@ -14,12 +14,12 @@
 ### Changed
 - Building from source no longer needs `brew install sevenzip`. `build.sh` downloads 7-Zip and verifies its checksum.
 
-## 2026-10-15 — 0.3.0 Public release
+## 2026-10-15 — Public release (0.3.0)
 
 ### Added
 - Public GitHub repo with download link, screenshots and install guide.
 
-## 2026-10-15 — 0.3.0 Green brand, light mode
+## 2026-10-15 — Green brand, light mode (0.3.0)
 
 ### Added
 - Dark mode toggle (moon/sun button on the home screen), remembered across launches.
@@ -29,7 +29,7 @@
 - Light mode is now the default.
 - App icon: green zipper on a matte-black tile.
 
-## 2026-10-15 — 0.2.0 Ertaga kech design
+## 2026-10-15 — Ertaga kech design (0.2.0)
 
 ### Added
 - About window: created by Anvar Narzullaev, with the Ertaga kech wordmark linking to t.me/ertagakech.
@@ -37,12 +37,12 @@
 ### Changed
 - UI restyled to the Ertaga kech design system: Bricolage Grotesque and Geist Mono, glow backdrop.
 
-## 2026-10-15 — 0.1.2 New icon
+## 2026-10-15 — New icon (0.1.2)
 
 ### Changed
 - Minimal app icon: white zipper on a violet squircle, drawn in code.
 
-## 2026-10-15 — 0.1.1 Security fixes
+## 2026-10-15 — Security fixes (0.1.1)
 
 ### Fixed
 - Extracted files now keep the archive's quarantine flag, so Gatekeeper still checks downloaded apps.
@@ -50,7 +50,7 @@
 - A corrupt archive is no longer reported as "wrong password".
 - Cancel pressed the instant a job starts is no longer lost.
 
-## 2026-10-15 — 0.1.0 Initial release
+## 2026-10-15 — Initial release (0.1.0)
 
 ### Added
 - Native SwiftUI archiver window with drag & drop, light/dark mode, live progress and cancel.
